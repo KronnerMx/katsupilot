@@ -80,11 +80,19 @@ class CarController(CarControllerBase):
 
     if self.frame % self.CCP.ACC_CONTROL_STEP == 0 and self.CP.openpilotLongitudinalControl:
       acc_control = self.CCS.acc_control_value(CS.out.cruiseState.available, CS.out.accFaulted, CC.longActive)
-      accel = clip(actuators.accel, self.CCP.ACCEL_MIN, self.CCP.ACCEL_MAX) if CC.longActive else 0
+      accel = clip(actuators.accel, self.CCP.ACCEL_MIN, self.CCP.ACCEL_MAX) if CC.longActive and actuators.accel >= 0 else 0
       stopping = actuators.longControlState == LongCtrlState.stopping
       starting = actuators.longControlState == LongCtrlState.pid and (CS.esp_hold_confirmation or CS.out.vEgo < self.CP.vEgoStopping)
       can_sends.extend(self.CCS.create_acc_accel_control(self.packer_pt, CANBUS.pt, CS.acc_type, CC.longActive, accel,
                                                          acc_control, stopping, starting, CS.esp_hold_confirmation))
+      
+    # **** EPB Decceleration Controls ******************************************** #
+    if self.frame % self.CCP.EPB_STEP == 0 and self.CP.openpilotLongitudinalControl:
+      decel = clip(actuators.accel, self.CCP.ACCEL_MIN, self.CCP.ACCEL_MAX) if CC.longActive and actuators.accel <= 0 else 0
+      can_sends.extend(self.CCS.create_epb_control(self.packer_pt, CANBUS.br, CC.longActive, decel))
+
+
+    # **** AWV Decceleration Controls ******************************************** #
 
     # **** HUD Controls ***************************************************** #
 

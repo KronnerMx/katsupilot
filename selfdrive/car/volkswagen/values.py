@@ -248,7 +248,7 @@ class CAR(Platforms):
   PASSAT_NMS = VolkswagenPQPlatformConfig(
     "VOLKSWAGEN PASSAT NMS",  # Chassis A3
     VWCarInfo("Volkswagen Passat NMS 2017-22"),
-    specs=VolkswagenCarSpecs(mass=1503, wheelbase=2.80, minSteerSpeed=50*CV.KPH_TO_MS, minEnableSpeed=20*CV.KPH_TO_MS),
+    specs=VolkswagenCarSpecs(mass=1503, wheelbase=2.62, minEnableSpeed=20*CV.KPH_TO_MS),
   )
   POLO_MK6 = VolkswagenMQBPlatformConfig(
     "VOLKSWAGEN POLO 6TH GEN",  # Chassis AW

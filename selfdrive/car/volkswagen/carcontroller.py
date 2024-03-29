@@ -27,6 +27,8 @@ class CarController(CarControllerBase):
     self.hca_frame_timer_running = 0
     self.hca_frame_same_torque = 0
 
+    self.AWV = 1 # 0 = EPB, 1 = AWV
+
   def update(self, CC, CS, now_nanos):
     actuators = CC.actuators
     hud_control = CC.hudControl
@@ -87,12 +89,15 @@ class CarController(CarControllerBase):
                                                          acc_control, stopping, starting, CS.esp_hold_confirmation))
       
     # **** EPB Decceleration Controls ******************************************** #
-    if self.frame % self.CCP.EPB_STEP == 0 and self.CP.openpilotLongitudinalControl:
+    if self.frame % self.CCP.EPB_STEP == 0 and self.CP.openpilotLongitudinalControl and not self.AWV:
       decel = clip(actuators.accel, self.CCP.ACCEL_MIN, self.CCP.ACCEL_MAX) if CC.longActive and actuators.accel <= 0 else 0
       can_sends.extend(self.CCS.create_epb_control(self.packer_pt, CANBUS.br, CC.longActive, decel))
 
 
     # **** AWV Decceleration Controls ******************************************** #
+    if self.frame % self.CCP.EPB_STEP == 0 and self.CP.openpilotLongitudinalControl and self.AWV:
+      decel = clip(actuators.accel, self.CCP.ACCEL_MIN, self.CCP.ACCEL_MAX) if CC.longActive and actuators.accel <= 0 else 0
+      can_sends.extend(self.CCS.create_awv_control(self.packer_pt, CANBUS.pt, CC.longActive, decel))
 
     # **** HUD Controls ***************************************************** #
 

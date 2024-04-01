@@ -95,7 +95,7 @@ class CarController(CarControllerBase):
 
 
     # **** AWV Decceleration Controls ******************************************** #
-    if self.frame % self.CCP.EPB_STEP == 0 and self.CP.openpilotLongitudinalControl and self.AWV:
+    if self.frame % self.CCP.AWV_STEP == 0 and self.CP.openpilotLongitudinalControl and self.AWV:
       decel = clip(actuators.accel, self.CCP.ACCEL_MIN, self.CCP.ACCEL_MAX) if CC.longActive and actuators.accel <= 0 else 0
       can_sends.extend(self.CCS.create_awv_control(self.packer_pt, CANBUS.pt, CC.longActive, decel))
 

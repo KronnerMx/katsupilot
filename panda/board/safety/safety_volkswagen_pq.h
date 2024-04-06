@@ -243,6 +243,7 @@ static int volkswagen_pq_fwd_hook(int bus_num, int addr) {
         // Forward all traffic from the Extended CAN onward
         bus_fwd = 2;
       }
+      break;
     case 2:
       if ((addr == MSG_HCA_1) || (addr == MSG_LDW_1)) {
         // openpilot takes over LKAS steering control and related HUD messages from the camera

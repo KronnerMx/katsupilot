@@ -36,10 +36,11 @@ const LongitudinalLimits VOLKSWAGEN_PQ_LONG_LIMITS_SPORT = {
 #define MSG_MOTOR_5             0x480   // RX from ECU, for ACC main switch state
 #define MSG_ACC_GRA_ANZEIGE     0x56A   // TX by OP, ACC HUD
 #define MSG_LDW_1               0x5BE   // TX by OP, Lane line recognition and text alerts
+#define MSG_BREMSE_11           0x5B7   // TX by OP, signal from ABS giving radar standstill info
 
 // Transmit of GRA_Neu is allowed on bus 0 and 2 to keep compatibility with gateway and camera integration
 const CanMsg VOLKSWAGEN_PQ_STOCK_TX_MSGS[] = {{MSG_HCA_1, 0, 5}, {MSG_LDW_1, 0, 8},
-                                              {MSG_GRA_NEU, 0, 4}, {MSG_GRA_NEU, 2, 4}};
+                                              {MSG_GRA_NEU, 0, 4}, {MSG_GRA_NEU, 2, 4}, {MSG_BREMSE_11, 2, 8}};
 const CanMsg VOLKSWAGEN_PQ_LONG_TX_MSGS[] =  {{MSG_HCA_1, 0, 5}, {MSG_LDW_1, 0, 8},
                                               {MSG_ACC_SYSTEM, 0, 8}, {MSG_ACC_GRA_ANZEIGE, 0, 8}};
 
@@ -235,9 +236,13 @@ static int volkswagen_pq_fwd_hook(int bus_num, int addr) {
 
   switch (bus_num) {
     case 0:
-      // Forward all traffic from the Extended CAN onward
-      bus_fwd = 2;
-      break;
+      if (addr == MSG_BREMSE_11) {
+        // openpilot takes mBremse_11 to radar
+        bus_fwd = -1;
+      } else {
+        // Forward all traffic from the Extended CAN onward
+        bus_fwd = 2;
+      }
     case 2:
       if ((addr == MSG_HCA_1) || (addr == MSG_LDW_1)) {
         // openpilot takes over LKAS steering control and related HUD messages from the camera

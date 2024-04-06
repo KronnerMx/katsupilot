@@ -90,6 +90,13 @@ def create_acc_accel_control(packer, bus, acc_type, acc_enabled, accel, acc_cont
 
   return commands
 
+def create_fts_control(packer, bus, B11_HydHalten):
+  values = {
+    "B11_HydHalten": B11_HydHalten,
+    "B11_Br_StSt_Info": 3, # TODO: fwd real signals from ABS. but my ABS literally ONLY sends this signal lol. not even CRC/counter.
+  }
+
+  return packer.make_can_msg("Bremse_11", bus, values)
 
 def create_acc_hud_control(packer, bus, acc_hud_status, set_speed, lead_distance, personality_profile):
   values = {

@@ -87,6 +87,12 @@ class CarController:
       can_sends.extend(self.CCS.create_acc_accel_control(self.packer_pt, CANBUS.pt, CS.acc_type, CC.longActive, accel,
                                                          acc_control, stopping, starting, CS.esp_hold_confirmation))
 
+    # **** FTS Controls ***************************************************** #
+
+    if self.frame % self.CCP.BREMSE11_STEP == 0:
+      B11_HydHalten = 1 if CS.acc_stopReq and CS.out.vEgo == 0 else 0
+      can_sends.extend(self.CCS.create_fts_control(self.packer_pt, CANBUS.cam, B11_HydHalten))
+
     # **** HUD Controls ***************************************************** #
 
     if self.frame % self.CCP.LDW_STEP == 0:

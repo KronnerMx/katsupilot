@@ -90,8 +90,8 @@ class CarController:
     # **** FTS Controls ***************************************************** #
 
     if self.frame % self.CCP.BREMSE11_STEP == 0:
-      B11_HydHalten = 1 if CS.acc_stopReq and CS.out.vEgo == 0 else 0
-      can_sends.extend(self.CCS.create_fts_control(self.packer_pt, CANBUS.cam, B11_HydHalten))
+      B11_HydHalten = 1 if CS.acc_stopReq else 0
+      can_sends.append(self.CCS.create_fts_control(self.packer_pt, CANBUS.cam, B11_HydHalten))
 
     # **** HUD Controls ***************************************************** #
 

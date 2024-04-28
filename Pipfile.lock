@@ -275,16 +275,13 @@
         },
         "libusb1": {
             "hashes": [
-                "sha256:16203d77a1f623b6f8f4e6c9d6bac79c1293b8d3e11de5f2f3c30d91380ae478",
-                "sha256:3905e907156f0a3fade75ddf82a777a6a901b245aa14500429275d221a1606c2",
-                "sha256:3a53d94add2799eaa1b412e7a5e384486c9109745217b9ac7f94101ad0f41b96",
-                "sha256:46708965226154681f8e0b14c48325c6d02e253c218e5d3aeff846ec274ceda8",
-                "sha256:4a024fffe195c49f3e7eadd2266087b4be065982f0cb41ef4b7e2c5053e7e65c",
-                "sha256:b12666e8ad4df78e8f1bae36298c7d6f8f45d70ceea058b88631ef8478fd1eb0",
-                "sha256:d03ef15248c8b8ce440f6be4248eaadc074fc2dc5edd36c48e6e78eef3999292"
+                "sha256:4ee9b0a55f8bd0b3ea7017ae919a6c1f439af742c4a4b04543c5fd7af89b828c",
+                "sha256:77a06ecfb3d002d7c2ce369e28d0138b292fe8db8a3d102b73fda231a716dd35",
+                "sha256:9d9f16e2c199cab91f48ead585d3f5ec7e8e4be428a25ddfed22abf786fa9b3a",
+                "sha256:bc7874302565721f443a27d8182fcc7152e5b560523f12f1377b130f473e4a0c"
             ],
             "index": "pypi",
-            "version": "==1.9.1"
+            "version": "==3.1.0"
         },
         "logentries": {
             "git": "https://github.com/commaai/le_python.git",
